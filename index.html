@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Average Exam Results</title>
+  <link href="styles/bootstrap.min.css" rel="stylesheet" />
+  <link href="styles/styles.css" rel='stylesheet' />
+</head>
+
+<body>
+  <div class="alert alert-primary" role="alert">
+    <div class="container">
+      This was the final product of JS Code Along 3.
+      <a href="/post/30th-march-2019">Post class briefing</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1 class='display-1'>Exam Results Average Calculator</h1>
+        <p class="lead">
+          <blockquote class="blockquote">
+            <p class="mb-0">Ever felt the need to know your grade given all your exam results?</p>
+          </blockquote>
+        </p>
+      </div>
+    </div>
+    <hr />
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="input-group input-group-lg">
+          <input max='100' min='0' id='scores' type="text" placeholder='Enter your score eg. 65, 34, 88'
+            class="form-control" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick='calculateGrade()'>Calculate</button>
+            <button class="btn btn-outline-danger" type="button" onclick='clearAll()'>Clear</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 justify-content-center">
+      <h1 id='grade'>Enter results to begin...</h1>
+    </div>
+  </div>
+</body>
+
+<script>
+  function getAverageScore() {
+    const scoresElement = getElementForScores();
+    const scoresAsString = scoresElement.value.trim();
+
+    const arrayOfScoresString = scoresAsString.split(',');
+    let sumOfAllScores = 0;
+    for(const scoreString of arrayOfScoresString){
+      const score = parseInt(scoreString);
+      sumOfAllScores = sumOfAllScores + score;
+    }
+    const averageScore = sumOfAllScores / arrayOfScoresString.length;
+
+    return averageScore;
+  }
+
+  function calculateGrade() {
+    const score = getAverageScore();
+
+    if (score >= 75) {
+      printGrade('A1');
+    } else if (score < 75 && score > 69) {
+      printGrade('A2');
+    } else if (score < 70 && score > 64) {
+      printGrade('B3');
+    } else if (score < 65 && score > 59) {
+      printGrade('B4');
+    } else if (score < 60 && score > 54) {
+      printGrade('C5');
+    } else if (score < 55 && score > 49) {
+      printGrade('C6');
+    } else if (score < 50 && score > 44) {
+      printGrade('D7');
+    } else if (score < 45 && score > 39) {
+      printGrade('E8');
+    } else if (score < 40) {
+      printGrade('F9');
+    }
+  }
+
+  function printGrade(grade) {
+    const elementToPrintGrade = getElementToPrintTo();
+
+    elementToPrintGrade.innerHTML = grade;
+  }
+
+  function getElementForScores(){
+    const scoresElement = document.getElementById('scores');
+
+    return scoresElement;
+  }
+
+  function getElementToPrintTo(){
+    const element = document.getElementById('grade');
+
+    return element;
+  }
+
+  function clearAll() {
+    const confirmClear = confirm('Are you sure you want to clear');
+
+    if(confirmClear){
+      const elementToPrintGrade = getElementToPrintTo();
+      const scoresElement = getElementForScores();
+
+      elementToPrintGrade.innerHTML = 'Enter results to begin...';
+      scoresElement.value = "";
+    }
+  }
+</script>
+
+</html>
